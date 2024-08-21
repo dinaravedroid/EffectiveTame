@@ -1,0 +1,71 @@
+{% extends 'base.html' %}
+
+{% block title %} Авторизация {% endblock %}
+
+{% block content %}
+    <h2>Регистрация</h2>
+<!-- registration/register.html -->
+
+<form method="post">
+    {% csrf_token %}
+
+    <!-- Логин -->
+    <div class="form-group">
+        <label for="{{ form.username.id_for_label }}">Логин</label>
+        {{ form.username }}
+        {% if form.username.errors %}
+            <div class="error">
+                {{ form.username.errors }}
+            </div>
+        {% endif %}
+    </div>
+
+    <!-- Email -->
+    <div class="form-group">
+        <label for="{{ form.email.id_for_label }}">Email</label>
+        {{ form.email }}
+        {% if form.email.errors %}
+            <div class="error">
+                {{ form.email.errors }}
+            </div>
+        {% endif %}
+    </div>
+
+    <!-- Группа пользователя -->
+    <div class="form-group">
+        <label for="{{ form.user_group.id_for_label }}">Группа пользователя</label>
+        {{ form.user_group }}
+        {% if form.user_group.errors %}
+            <div class="error">
+                {{ form.user_group.errors }}
+            </div>
+        {% endif %}
+    </div>
+
+    <!-- Пароль -->
+    <div class="form-group">
+        <label for="{{ form.password1.id_for_label }}">Пароль</label>
+        {{ form.password1 }}
+        {% if form.password1.errors %}
+            <div class="error">
+                {{ form.password1.errors }}
+            </div>
+        {% endif %}
+    </div>
+
+    <!-- Повтор пароля -->
+    <div class="form-group">
+        <label for="{{ form.password2.id_for_label }}">Повторите пароль</label>
+        {{ form.password2 }}
+        {% if form.password2.errors %}
+            <div class="error">
+                {{ form.password2.errors }}
+            </div>
+        {% endif %}
+    </div>
+
+    <!-- Кнопка отправки -->
+    <button type="submit" class="btn btn-primary">Зарегистрироваться</button>
+</form>
+
+{% endblock %}

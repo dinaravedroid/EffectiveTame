@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+
+{% block title %} Главная {% endblock %}
+
+{% block content %}
+
+
+    <h2>Список команд</h2>
+
+    {% for row in teams %}
+        <b>{{row.name}}</b><br>
+    {% endfor %}
+
+<!-- Кнопка для добавления новой команды -->
+    <br>
+    <a href="{% url 'add_team' %}" class="btn btn-primary">Добавить команду</a>
+
+{% endblock %}
+

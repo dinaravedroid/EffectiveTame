@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+
+{% block title %} Добавить команду {% endblock %}
+
+{% block content %}
+
+
+    <h2>Добавить команду</h2>
+
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}  <!-- Отображает поля формы как параграфы -->
+        <button type="submit" class="btn btn-primary">Сохранить</button>
+    </form>
+
+{% endblock %}
+

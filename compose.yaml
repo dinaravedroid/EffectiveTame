@@ -1,0 +1,23 @@
+version: '3.7'
+services:
+  ttdj:
+    command: "python3 manage.py runserver 0.0.0.0:4001 "
+    build:
+            context: .
+            dockerfile: ./docker/Dockerfile
+            args:
+                PY_IMAGE: python
+                PY_IMAGE_VERSION: 3.8
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    dns:
+      - 10.15.12.100
+      - 10.15.12.200
+      - 8.8.4.4
+      - 8.8.8.8
+    volumes:
+      - '.:/app'
+    ports:
+          - 6060:4001
+    env_file:
+    - .env

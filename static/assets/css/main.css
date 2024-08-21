@@ -1,0 +1,14 @@
+
+
+.main-panel .content-sc{
+  margin: 21px 44px;
+}
+
+.profile-pic-a{
+    color: white;
+    cursor: pointer;
+}
+.profile-pic-a:hover{
+    color: white;
+    border-bottom: 1px solid white;
+}

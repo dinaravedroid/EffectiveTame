@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+
+{% block title %} Главная {% endblock %}
+
+{% block content %}
+
+    {{user_is_player}}
+    {{user_is_lead}}
+
+    <h2>Добро пожаловать в "Эффективную Команду"!</h2>
+
+    {% if user.is_authenticated %}
+
+    {% else %}
+        <p>Для работы с приложением авторизутесь пожалуйста</p>
+        <p>
+            <a class="btn btn-primary"  href="{% url 'login' %}"> Воход </a>
+            <a class="btn btn-primary"  href="{% url 'register' %}"> Регистрация </a>
+        </p>
+    {% endif %}
+
+{% endblock %}
