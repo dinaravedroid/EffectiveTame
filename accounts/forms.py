@@ -2,6 +2,7 @@ from django.contrib.auth.forms import AuthenticationForm
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User, Group
+from teams.models import TeamLead
 
 class LoginForm(AuthenticationForm):
     username = forms.CharField(
@@ -58,10 +59,16 @@ class RegistrationForm(UserCreationForm):
         user = super(RegistrationForm, self).save(commit=False)
         user.email = self.cleaned_data['email']
 
+
         if commit:
             user.save()
             # Добавляем пользователя в выбранную группу
             user_group = self.cleaned_data['user_group']
             user.groups.add(user_group)
+
+            team_lead = TeamLead()
+            team_lead.name = user.username
+            team_lead.user = user
+            team_lead.save()
 
         return user

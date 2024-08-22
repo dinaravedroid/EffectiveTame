@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+
+{% block title %} Редактировать команду {% endblock %}
+
+{% block content %}
+
+    <h1>Редактировать команду</h1>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Сохранить</button>
+    </form>
+    <a href="{% url 'myteams' %}">Назад к командам</a>
+
+{% endblock %}

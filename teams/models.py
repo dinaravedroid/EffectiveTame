@@ -7,10 +7,12 @@ import logging
 class TeamLead(models.Model):
     name = models.CharField(max_length=100)
     money = models.FloatField(default=0.0)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='leaduser', null=True, blank=True)
 
 
     def __str__(self):
         return self.name
+
 
     class Meta:
         verbose_name = "Тимлид"

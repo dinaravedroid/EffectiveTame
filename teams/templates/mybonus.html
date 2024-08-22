@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+
+{% block title %} Мои баллы {% endblock %}
+
+{% block content %}
+
+    <h1>Мои баллы</h1>
+
+    <!-- Вывод сообщений -->
+    {% if messages %}
+        <ul>
+        {% for message in messages %}
+            <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+        {% endfor %}
+        </ul>
+    {% endif %}
+
+    <p>Ваше текущее количество денег: {{ teamlead.money }}</p>
+
+
+    <h2>Перевести баллы другому пользователю</h2>
+    <form method="post">
+        {% csrf_token %}
+        {{ transfer_form.as_p }}
+        <button type="submit" name="transfer_money">Перевести</button>
+    </form>
+
+{% endblock %}

@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+
+{% block title %} Удалить команду {% endblock %}
+
+{% block content %}
+
+    <h1>Вы уверены,что хотите удалить команду "{{ team.name }}"?</h1>
+    <form method="post">
+        {% csrf_token %}
+        <button type="submit">Да, удалить</button>
+    </form>
+    <a href="{% url 'myteams' %}">Отмена</a>
+
+{% endblock %}
