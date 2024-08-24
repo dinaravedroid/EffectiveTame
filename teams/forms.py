@@ -25,3 +25,4 @@ class TeamleadMoneyForm(forms.ModelForm):
 class TransferMoneyForm(forms.Form):
     recipient = forms.ModelChoiceField(queryset=TeamLead.objects.all(), label="Получатель")
     amount = forms.FloatField(min_value=0.01, label="Сумма перевода")
+

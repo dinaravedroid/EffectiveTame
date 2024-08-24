@@ -1,12 +1,13 @@
+import logging
 
-from teams.models import Team, TeamLead
+from teams.models import Team, TeamLead, Player, RequestToTeam, ProcessStatus
 
 from django.contrib.auth.decorators import login_required
 
 from django.shortcuts import render, redirect, get_object_or_404
 from .forms import TeamForm, TeamleadMoneyForm, TransferMoneyForm
 from django.contrib import messages
-
+from django.db.models import Max, Min
 
 # Create your views here.
 
@@ -29,6 +30,7 @@ def myteams_view(request):
 
 
 #-------CRUD-----
+@login_required
 def team_update(request, pk):
     team = get_object_or_404(Team, pk=pk)
     if request.method == 'POST':
@@ -40,6 +42,7 @@ def team_update(request, pk):
         form = TeamForm(instance=team)
     return render(request, 'team_update.html', {'form': form})
 
+@login_required
 def team_delete(request, pk):
     team = get_object_or_404(Team, pk=pk)
     if request.method == 'POST':
@@ -47,6 +50,7 @@ def team_delete(request, pk):
         return redirect('myteams')
     return render(request, 'team_confirm_delete.html', {'team': team})
 
+@login_required
 def add_team(request):
     if request.method == 'POST':
         form = TeamForm(request.POST)
@@ -59,6 +63,7 @@ def add_team(request):
     return render(request, 'team_add.html', {'form': form})
 
 #----баллы----
+@login_required
 def mybonus_view(request):
 
     if not request.user.groups.filter(name='TeamLead').exists():
@@ -99,3 +104,41 @@ def mybonus_view(request):
         'transfer_form': transfer_form,
         'teamlead': teamlead
     })
+
+
+def player_info(request):
+    teams = Team.objects.all()  # Получаем все команды
+    return render(request, 'playerinfo.html', {'teams': teams})
+
+
+@login_required
+def apply_to_team(request, team_id):
+    if request.method == 'POST':
+
+        team = Team.objects.get(pk=team_id)
+        current_player = Player.objects.get(user=request.user)
+        count_on_team_players = RequestToTeam.objects.select_related('player').filter(team=team).count()
+
+        req = RequestToTeam()
+        req.team = team
+        req.player = current_player
+
+        remove_candidates = None
+        if( count_on_team_players > 5 ):
+            remove_candidates = (RequestToTeam.objects.select_related('player')
+                                 .filter(team=team, player__stamina__lt=current_player.stamina)
+                                 .order_by('player__stamina')).first()
+
+            if(remove_candidates):
+                remove_candidates.delete()
+
+                req.status_id = ProcessStatus.approved
+            else:
+                req.status_id = ProcessStatus.denied
+        else:
+            req.status_id = ProcessStatus.approved
+
+        req.save()
+
+
+        return redirect('player_info')

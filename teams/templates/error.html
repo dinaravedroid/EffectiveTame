@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+{% block title %} Мои баллы {% endblock %}
+
+{% block content %}
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Error</title>
+</head>
+<body>
+    <h1>Error</h1>
+    <p>{{ message }}</p>
+    <a href="{% url 'form' team_id=team_id %}">Go Back</a>
+</body>
+{% endblock %}

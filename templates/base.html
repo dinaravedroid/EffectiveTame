@@ -83,25 +83,35 @@
 			<div class="sidebar-wrapper scrollbar scrollbar-inner">
 				<div class="sidebar-content">
 					<ul class="nav nav-primary">
-						<li class="nav-item">
-							<ul class="nav ">
-								<li>
-									<a href="{% url 'myteams' %}">
-										<span class="sub-item">Мои команды</span>
-									</a>
-								</li>
-								<li>
-									<a href="{% url 'mybonus' %}">
-										<span class="sub-item">Передать баллы</span>
-									</a>
-								</li>
-								<li>
-									<a href="sidebar-style-1.html">
-										<span class="sub-item">Команды</span>
-									</a>
-								</li> 
-							</ul>
-						</li>
+						{% if type_user == 'TeamLead' %}
+							<li class="nav-item">
+									<ul class="nav ">
+										<li>
+											<a href="{% url 'myteams' %}">
+												<span class="sub-item">Мои команды</span>
+											</a>
+										</li>
+										<li>
+											<a href="{% url 'mybonus' %}">
+												<span class="sub-item">Передать баллы</span>
+											</a>
+										</li>
+
+									</ul>
+							</li>
+						{% endif %}
+						{% if type_user == 'Player' %}
+							<li class="nav-item">
+									<ul class="nav ">
+										<li>
+											<a href="{% url 'player_info' %}">
+												<span class="sub-item">Меню для игрока</span>
+											</a>
+										</li>
+
+									</ul>
+							</li>
+						{% endif %}
 					</ul>
 				</div>
 			</div>

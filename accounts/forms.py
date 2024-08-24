@@ -1,8 +1,10 @@
+import logging
+
 from django.contrib.auth.forms import AuthenticationForm
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User, Group
-from teams.models import TeamLead
+from teams.models import TeamLead,Player
 
 class LoginForm(AuthenticationForm):
     username = forms.CharField(
@@ -65,10 +67,15 @@ class RegistrationForm(UserCreationForm):
             # Добавляем пользователя в выбранную группу
             user_group = self.cleaned_data['user_group']
             user.groups.add(user_group)
-
-            team_lead = TeamLead()
-            team_lead.name = user.username
-            team_lead.user = user
-            team_lead.save()
+            if( str(user_group) == 'Player'):
+                team_lead = Player()
+                team_lead.name = user.username
+                team_lead.user = user
+                team_lead.save()
+            elif( str(user_group) == 'TeamLead' ):
+                team_lead = TeamLead()
+                team_lead.name = user.username
+                team_lead.user = user
+                team_lead.save()
 
         return user
